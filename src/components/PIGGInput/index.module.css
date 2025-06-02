@@ -1,0 +1,17 @@
+.pigginput {
+  width: 240px;
+  height: 30px;
+  padding-left: 3px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid var(--primary-border-light);
+  background-color: transparent;
+  outline: none;
+  transition: all .25s ease-in;
+  box-sizing: border-box;
+}
+
+.pigginput:hover,
+.pigginput:focus {
+  border-bottom: 1px solid var(--primary-color);
+}

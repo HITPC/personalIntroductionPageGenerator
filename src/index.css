@@ -1,6 +1,7 @@
 :root {
 	--bg-color: #f8f8f8;
 	--primary-color: #222;
+	--primary-border-light: rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -18,18 +19,18 @@ body,
 }
 
 @font-face {
-	font-family: 'juviya';
-	src: url('/font/juviyademo-3lw5l.ttf');
+	font-family: "juviya";
+	src: url("/font/juviyademo-3lw5l.ttf");
 }
 
 @font-face {
-	font-family: 'bqgd';
-	src: url('/font/basheqvintagedemoversionregular-ov13x.ttf');
+	font-family: "bqgd";
+	src: url("/font/basheqvintagedemoversionregular-ov13x.ttf");
 }
 
 /* 暂且不做移动适配 */
 @media (max-width: 1540px) {
-	#root{
+	#root {
 		min-width: 1920px;
 	}
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import Loading from '@/router/components/Loading';
+import Loading from '@/components/Loading';
+import PIGGInput from '@/components/PIGGInput';
 import style from './index.module.css';
 
 const Playground: React.FC = () => {
@@ -8,6 +9,10 @@ const Playground: React.FC = () => {
       <div className={style.itemContainer}>
         <Loading />
       </div>
+      <div className={style.itemContainer}>
+        <PIGGInput />
+      </div>
+      <div className={style.placeholder}></div>
     </div>
   )
 }

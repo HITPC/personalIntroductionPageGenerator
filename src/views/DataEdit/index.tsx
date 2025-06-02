@@ -1,8 +1,11 @@
 import React from 'react';
+import PIGGInput from '@/components/PIGGInput';
 
 const Edit: React.FC = () => {
   return (
-    <div>edit</div>
+    <div>
+      <PIGGInput />
+    </div>
   )
 }
 

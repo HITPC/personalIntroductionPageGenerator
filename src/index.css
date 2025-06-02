@@ -23,11 +23,6 @@ body,
 }
 
 @font-face {
-	font-family: 'mtl';
-	src: url('/font/demomotherlane-kvoka.otf');
-}
-
-@font-face {
 	font-family: 'bqgd';
 	src: url('/font/basheqvintagedemoversionregular-ov13x.ttf');
 }

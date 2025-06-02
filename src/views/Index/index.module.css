@@ -9,8 +9,82 @@
 
 .header {
   width: 100%;
-  height: 40px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 8px 20px;
+  box-sizing: border-box;
+}
+
+.author {
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-weight: 600;
+  user-select: none;
+  letter-spacing: 8px;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-family: 'juviya';
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 21px;
+  font-weight: 600;
+  margin-left: 20px;
+  user-select: none;
+  letter-spacing: 4px;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-family: 'bqgd';
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.feedbackButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  padding: 6px 14px;
+  transition: all 0.25s ease;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.feedbackButton:hover {
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+}
+
+.startButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  padding: 6px 14px;
+  transition: all 0.25s ease;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  border-radius: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.startButton:hover {
+  opacity: 0.8;
 }

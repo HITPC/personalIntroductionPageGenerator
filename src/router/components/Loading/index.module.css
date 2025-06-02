@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   background-color: var(--bg-color);
-  color: var(--color-primary);
+  color: var(--primary-color);
 }
 
 .circleContainer {
@@ -19,7 +19,7 @@
 
 .circle {
   font-size: 36px;
-  color: var(--color-primary);
+  color: var(--primary-color);
 }
 
 .textContainer {
@@ -37,7 +37,7 @@
   height: 24px;
   line-height: 24px;
   text-align: center;
-  color: var(--color-primary);
+  color: var(--primary-color);
   font-size: 24px;
   font-weight: 300;
   user-select: none;

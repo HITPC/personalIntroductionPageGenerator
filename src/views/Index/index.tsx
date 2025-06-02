@@ -5,7 +5,12 @@ const Index: React.FC = () => {
   return (
     <div className={style.container}>
       <div className={style.header}>
-        <div>个人介绍页生成器-PIGG</div>
+        <a className={style.author} href='https://github.com/HITPC' target='_blank'>PIAOCHEN</a>
+        <a className={style.logo} href='/'>{"- Personal Introduction Page Generator -"}</a>
+        <div className={style.buttonContainer}>
+          <a className={style.feedbackButton}>Feedback</a>
+          <a className={style.startButton}>Start</a>
+        </div>
       </div>
     </div>
   )

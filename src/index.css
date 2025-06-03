@@ -14,8 +14,13 @@ body,
 #root {
 	width: 100%;
 	height: 100%;
+	overflow: auto;
 	background-color: var(--bg-color);
 	color: var(--primary-color);
+}
+
+#root {
+	background-image: url("/img/texture.png");
 }
 
 @font-face {
@@ -30,7 +35,7 @@ body,
 
 /* 暂且不做移动适配 */
 @media (max-width: 1540px) {
-	#root {
+	html {
 		min-width: 1920px;
 	}
 }

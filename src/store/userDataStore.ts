@@ -1,60 +1,7 @@
 import { create } from "zustand";
+import type { UserDataZustand } from "@/types/userData";
 
-interface UserData {
-	basicData: {
-		name: string;
-		birth?: string;
-		phone?: string;
-		email?: string;
-		wx?: string;
-		avatar?: File | string;
-	};
-
-	educationExperience: {
-		school: string;
-		major: string;
-		degree: "Bachelor Degree" | "Master's Degree" | "Doctorate";
-		schoolLevel?: "985" | "211" | "QS100" | "Other";
-		startDate: string;
-		endDate: string;
-		schoolIcon?: File | string;
-	}[];
-
-	skillsAndCertifications?: {
-		skills: string[];
-		certifications: string[];
-	};
-
-	internshipExperience?: {
-		company: string;
-		position: string;
-		startDate: string;
-		endDate: string;
-		description: string;
-		companyIcon?: File | string;
-	}[];
-
-	projectExperience?: {
-		name: string;
-		position: string;
-		description: string;
-		startDate: string;
-		endDate: string;
-	}[];
-
-	worksShow?: {
-		title?: string;
-		description?: string;
-		image?: File | string;
-	};
-
-	descriptionAboutMe?: string;
-
-	setData: (data: Partial<UserData>) => void;
-	resetData: () => void;
-}
-
-export const useUserDataStore = create<UserData>((set) => ({
+export const useUserDataStore = create<UserDataZustand>((set) => ({
 	basicData: {
 		name: "Donald J. Trump",
 		birth: "June 14, 1946",
@@ -67,7 +14,7 @@ export const useUserDataStore = create<UserData>((set) => ({
 		{
 			school: "Wharton School of the University of Pennsylvania",
 			major: "Economics",
-			degree: "Bachelor Degree",
+			degree: "学士",
 			schoolLevel: "QS100", // 宾夕法尼亚大学未在枚举中
 			startDate: "1964",
 			endDate: "1968",
@@ -108,8 +55,7 @@ export const useUserDataStore = create<UserData>((set) => ({
 			"Bestselling autobiography on business strategies and negotiations (1987).",
 		image: undefined,
 	},
-	descriptionAboutMe:
-		"I AM THE KNOWING KING!",
+	descriptionAboutMe: "I AM THE KNOWING KING!",
 	setData: (data) => set((state) => ({ ...state, ...data })),
 	resetData: () =>
 		set(() => ({
@@ -125,8 +71,8 @@ export const useUserDataStore = create<UserData>((set) => ({
 				{
 					school: "Wharton School of the University of Pennsylvania",
 					major: "Economics",
-					degree: "Bachelor Degree",
-					schoolLevel: "QS100", // 宾夕法尼亚大学未在枚举中
+					degree: "学士",
+					schoolLevel: "QS100",
 					startDate: "1964",
 					endDate: "1968",
 					schoolIcon: undefined,
@@ -166,7 +112,6 @@ export const useUserDataStore = create<UserData>((set) => ({
 					"Bestselling autobiography on business strategies and negotiations (1987).",
 				image: undefined,
 			},
-			descriptionAboutMe:
-				"I AM THE KNOWING KING!",
+			descriptionAboutMe: "I AM THE KNOWING KING!",
 		})),
 }));

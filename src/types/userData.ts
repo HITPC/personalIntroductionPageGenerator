@@ -8,20 +8,21 @@ export default interface UserData {
   };
 
   educationExperience: {
+    id: string;
     school: string;
     major: string;
-    degree: "学士" | "硕士" | "博士";
+    degree: "学士" | "硕士" | "博士" | "其他";
     schoolLevel: "985" | "211" | "QS100" | "双一流" | "Other";
     startDate: string;
     endDate: string;
   }[];
 
   skillsAndCertifications: {
-    skills: string[];
-    certifications: string[];
+    skills: string;
+    certifications: string;
   };
 
-  awards?: string[];
+  awards?: string;
 
   internshipExperience?: {
     company: string;

@@ -39,3 +39,11 @@ body,
 		min-width: 1920px;
 	}
 }
+
+/* 也是没办法了 */
+.ant-select-selector {
+	border-radius: 0!important;
+	border-top: none!important;
+	border-left: none!important;
+	border-right: none!important;
+}

@@ -20,6 +20,11 @@ function App() {
 						activeBg: "transparent",
 						hoverBg: "transparent",
 					},
+					Select: {
+						selectorBg: "transparent",
+						optionSelectedColor: "#fff",
+						activeOutlineColor: "transparent"
+					},
 				},
 			}}
 		>

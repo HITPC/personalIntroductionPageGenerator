@@ -82,9 +82,11 @@
 	justify-content: center;
 	align-items: center;
 	column-gap: 8px;
-	width: 100%;
+	width: 80%;
 	height: 48px;
+	background-color: var(--bg-color);
 	user-select: none;
+	border-radius: 8px;
 }
 
 .topCheckboxContainerTitle {
@@ -115,12 +117,14 @@
 	color: var(--primary-color);
 	font-size: 21px;
 	letter-spacing: 1px;
+	user-select: none;
 	font-family: "YouYuan", "Microsoft YaHei", "Arial", sans-serif;
 }
 
 .dataContentContainer {
 	width: 100%;
 	display: flex;
+	padding: 16px;
 	justify-content: flex-start;
 	flex-wrap: wrap;
 	align-content: flex-start;
@@ -139,7 +143,7 @@
 }
 
 .inputLabel {
-	width: 50%;
+	width: 20%;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
@@ -150,7 +154,7 @@
 }
 
 .input {
-	width: 200px;
+	width: 240px;
 	background-color: transparent;
 	border-radius: 0;
 	border-top: none;
@@ -158,11 +162,101 @@
 	border-right: none;
 }
 
+.eduContainer {
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	row-gap: 16px;
+}
+
+.eduItemContainer {
+	position: relative;
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	row-gap: 8px;
+}
+
+.eduAddButton {
+	width: 70%;
+	height: 48px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
+	border-radius: 16px;
+	transition: background-color 0.25s ease, color 0.25s ease;
+	cursor: pointer;
+}
+
+.eduDeleteButton {
+	position: absolute;
+	right: 0px;
+	top: 8px;
+	font-size: 18px;
+	color: var(--primary-border-light);
+	cursor: pointer;
+	transition: color 0.25s ease;
+}
+
+.eduDeleteButton:hover {
+	color: var(--primary-color);
+}
+
+.eduAddButton:hover {
+	background-color: var(--primary-color);
+	color: var(--bg-color);
+}
+
+.eduMainContainer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	row-gap: 8px;
+}
+
+.eduDivider {
+	width: 90%;
+	margin: 8px auto;
+	border-bottom: 1px dashed var(--primary-border-light);
+}
+
 .buttonContainer {
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	column-gap: 12px;
+}
+
+.saveButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	cursor: pointer;
+	padding: 12px 24px;
+	transition: all 0.25s ease;
+	text-decoration: none;
+	border: 1px solid var(--primary-color);
+	background-color: transparent;
+	color: var(--primary-color);
+	border-radius: 8px;
+	font-size: 18px;
+	font-family: "YouYuan", "Microsoft YaHei", "Arial", sans-serif;
+}
+
+.saveButton:hover {
+	background-color: var(--primary-color);
+	color: var(--bg-color);
 }
 
 .button {

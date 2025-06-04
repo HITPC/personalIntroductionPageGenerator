@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import { Checkbox } from "antd";
-import type { CheckboxOptionType, GetProp } from "antd";
+import React, { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { Checkbox, Input, DatePicker, Popover } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import type { CheckboxOptionType } from "antd";
 import type { UserDataKey } from "@/types/userData";
-import { useUserDataStore } from "@/store/userDataStore";
+import type { CheckboxChangeSituation } from "@/types/edit";
+import type UserData from "@/types/userData";
+import { useNavigate } from "react-router";
 import style from "./index.module.css";
 
 const Edit: React.FC = () => {
@@ -52,18 +56,219 @@ const Edit: React.FC = () => {
 		topTitleConfigs.map((item) => item.value)
 	);
 
-	const handleTopTitleConfigsChange: GetProp<
-		typeof Checkbox.Group,
-		"onChange"
-	> = (checkedValues) => {
-		// 针对是哪一个值的变化来更新state 移除后变为空值
-		setCheckedTopTitle(checkedValues as string[]);
+	const [basicData, setBasicData] = useState<UserData["basicData"]>({
+		name: "",
+		birth: "",
+		phone: "",
+		email: "",
+		wx: "",
+	});
+	const [educationExperience, setEducationExperience] = useState<
+		UserData["educationExperience"]
+	>([]);
+	const [skillsAndCertifications, setSkillsAndCertifications] = useState<
+		UserData["skillsAndCertifications"]
+	>({
+		skills: [],
+		certifications: [],
+	});
+	const [awards, setAwards] = useState<UserData["awards"]>([]);
+	const [internshipExperience, setInternshipExperience] = useState<
+		UserData["internshipExperience"]
+	>([]);
+	const [projectExperience, setProjectExperience] = useState<
+		UserData["projectExperience"]
+	>([]);
+	const [worksShow, setWorksShow] = useState<UserData["worksShow"]>({
+		title: "",
+		description: "",
+	});
+	const [descriptionAboutMe, setDescriptionAboutMe] =
+		useState<UserData["descriptionAboutMe"]>("");
+	const [finalMotto, setFinalMotto] = useState<UserData["finalMotto"]>("");
+	const [template, setTemplate] = useState<string>("");
+
+	useEffect(() => {
+		const data = localStorage.getItem("userData");
+		if (data) {
+			const parsedData: UserData = JSON.parse(data);
+			setBasicData(parsedData.basicData);
+			setEducationExperience(parsedData.educationExperience);
+			setSkillsAndCertifications(parsedData.skillsAndCertifications);
+			setAwards(parsedData.awards || []);
+			setInternshipExperience(parsedData.internshipExperience || []);
+			setProjectExperience(parsedData.projectExperience || []);
+			setWorksShow(parsedData.worksShow || { title: "", description: "" });
+			setDescriptionAboutMe(parsedData.descriptionAboutMe || "");
+			setFinalMotto(parsedData.finalMotto || "");
+			setCheckedTopTitle(
+				topTitleConfigs
+					.filter((item) => parsedData[item.value as UserDataKey])
+					.map((item) => item.value)
+			);
+		}
+	}, []);
+
+	// 为使用GSAP动画的准备
+	const dataContainerRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+	const checkboxChangeSituation = (
+		newVal: string[]
+	): CheckboxChangeSituation => {
+		const res: CheckboxChangeSituation = {
+			addOrDel: "unknow",
+			target: "",
+		};
+		if (newVal.length > checkedTopTitle.length) {
+			// 新增
+			res.addOrDel = "add";
+			res.target = newVal.find((item) => !checkedTopTitle.includes(item)) || "";
+		} else {
+			// 删除
+			res.addOrDel = "del";
+			res.target = checkedTopTitle.find((item) => !newVal.includes(item)) || "";
+		}
+		return res;
 	};
 
+	const handleTopTitleConfigsChange = (checkedValues: string[]) => {
+		// 针对是哪一个值的变化来更新state 移除后变为空值
+		setCheckedTopTitle(checkedValues);
+		// GSAP动画处理
+		const changeSituation = checkboxChangeSituation(checkedValues);
+		// 顺带需要去掉对应收集到的表单值 后面需要补充
+		if (changeSituation.addOrDel === "add") {
+			const newDataContainer =
+				dataContainerRefs.current[changeSituation.target];
+			if (newDataContainer) {
+				newDataContainer.style.display = "flex"; // 确保元素可见
+				gsap.to(newDataContainer, {
+					opacity: 1,
+					scale: 1,
+					ease: "power2.out",
+					duration: 0.6,
+				});
+			}
+		} else if (changeSituation.addOrDel === "del") {
+			const delDataContainer =
+				dataContainerRefs.current[changeSituation.target];
+			if (delDataContainer) {
+				gsap.to(delDataContainer, {
+					opacity: 0,
+					scale: 0,
+					ease: "power2.out",
+					duration: 0.6,
+					onComplete: () => {
+						delDataContainer.style.display = "none"; // 动画完成后隐藏元素
+					},
+				});
+			}
+		}
+	};
+
+	const onBirthDateChange = (_: any, dateString: string | string[]) => {
+		if (!Array.isArray(dateString)) {
+			setBasicData((prev) => {
+				return {
+					...prev,
+					birth: dateString,
+				};
+			});
+		}
+	};
+
+	const onNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setBasicData((prev) => {
+			return {
+				...prev,
+				name: e.target.value,
+			};
+		});
+	};
+
+	const onPhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setBasicData((prev) => {
+			return {
+				...prev,
+				phone: e.target.value,
+			};
+		});
+	};
+
+	const onEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setBasicData((prev) => {
+			return {
+				...prev,
+				email: e.target.value,
+			};
+		});
+	};
+
+	const onWxInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setBasicData((prev) => {
+			return {
+				...prev,
+				wx: e.target.value,
+			};
+		});
+	};
+	
 	const getTopTitleContent = (title: UserDataKey) => {
 		switch (title) {
 			case "basicData":
-				return <div>{title}</div>;
+				return (
+					<>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>姓名</p>
+							<Input
+								allowClear
+								onChange={onNameInputChange}
+								value={basicData.name}
+								placeholder="请输入姓名"
+								className={style.input}
+							></Input>
+						</div>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>出生日期</p>
+							<DatePicker
+								className={style.input}
+								value={basicData.birth ? new Date(basicData.birth) : null}
+								placeholder="请选择出生日期"
+								onChange={onBirthDateChange}
+							/>
+						</div>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>电话号码</p>
+							<Input
+								allowClear
+								onChange={onPhoneInputChange}
+								value={basicData.phone}
+								placeholder="请输入电话号码"
+								className={style.input}
+							></Input>
+						</div>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>邮箱</p>
+							<Input
+								allowClear
+								onChange={onEmailInputChange}
+								value={basicData.email}
+								placeholder="请输入邮箱"
+								className={style.input}
+							></Input>
+						</div>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>微信</p>
+							<Input
+								allowClear
+								onChange={onWxInputChange}
+								value={basicData.wx}
+								placeholder="请输入微信号"
+								className={style.input}
+							></Input>
+						</div>
+					</>
+				);
 			case "educationExperience":
 				return <div>{title}</div>;
 			case "skillsAndCertifications":
@@ -83,6 +288,23 @@ const Edit: React.FC = () => {
 		}
 	};
 
+	const navigate = useNavigate();
+	const toPreview = () => {
+		const userData: UserData = {
+			basicData,
+			educationExperience,
+			skillsAndCertifications,
+			awards,
+			internshipExperience,
+			projectExperience,
+			worksShow,
+			descriptionAboutMe,
+			finalMotto,
+		};
+		localStorage.setItem("userData", JSON.stringify(userData));
+		navigate(`/preview?template=${template}`);
+	};
+
 	return (
 		<div className={style.container}>
 			<div className={style.header}>
@@ -99,6 +321,9 @@ const Edit: React.FC = () => {
 			</div>
 			<div className={style.titleContainer}>
 				<span className={style.mainTitle}>{"< 配置展示信息 >"}</span>
+				<Popover content="下方字段均未配置校验，为保证效果，请您填写正确的内容。信息均为本地存储，刷新页面后会丢失">
+					<QuestionCircleOutlined className={style.titleExplain} />
+				</Popover>
 			</div>
 			<div className={style.configContainer}>
 				<div className={style.topCheckboxContainer}>
@@ -114,12 +339,12 @@ const Edit: React.FC = () => {
 				{topTitleConfigs.map((item) => (
 					<div
 						className={style.dataContainer}
-						style={
-							checkedTopTitle.includes(item.value)
-								? { width: "70%" }
-								: { width: "0" }
-						}
 						key={item.value}
+						ref={(el) => {
+							if (el) {
+								dataContainerRefs.current[item.value] = el;
+							}
+						}}
 					>
 						<div className={style.topTitle}>{item.label}</div>
 						<div className={style.dataContentContainer}>
@@ -127,6 +352,17 @@ const Edit: React.FC = () => {
 						</div>
 					</div>
 				))}
+			</div>
+			<div className={style.dataContainer}>
+				<div className={style.topTitle}>模板选择</div>
+				<div className={style.dataContentContainer}>
+					123 需要一个state来记录当前选择的模板
+				</div>
+			</div>
+			<div className={style.buttonContainer}>
+				<button className={style.button} onClick={toPreview}>
+					预览结果
+				</button>
 			</div>
 		</div>
 	);

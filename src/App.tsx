@@ -12,6 +12,13 @@ function App() {
 				components: {
 					Input: {
 						activeShadow: "none",
+						activeBg: "transparent",
+						hoverBg: "transparent",
+					},
+					DatePicker: {
+						activeShadow: "none",
+						activeBg: "transparent",
+						hoverBg: "transparent",
 					},
 				},
 			}}

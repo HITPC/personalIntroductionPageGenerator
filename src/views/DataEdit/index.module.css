@@ -1,11 +1,11 @@
 .container {
-  width: 100%;
-  padding: 12px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-content: flex-start;
+	width: 100%;
+	padding: 12px;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .header {
@@ -45,20 +45,26 @@
 }
 
 .titleContainer {
-  width: 100%;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: relative;
+	width: 100%;
+	padding: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .mainTitle {
-  font-weight: 300;
-  font-size: 32px;
-  color: var(--primary-color);
-  user-select: none;
-  letter-spacing: 1px;
-  font-family: "YouYuan", "Microsoft YaHei", "Arial", sans-serif;
+	font-weight: 300;
+	font-size: 32px;
+	color: var(--primary-color);
+	user-select: none;
+	letter-spacing: 1px;
+	font-family: "YouYuan", "Microsoft YaHei", "Arial", sans-serif;
+}
+
+.titleExplain {
+	position: absolute;
+	left: calc(50% + 140px);
 }
 
 .configContainer {
@@ -78,6 +84,7 @@
 	column-gap: 8px;
 	width: 100%;
 	height: 48px;
+	user-select: none;
 }
 
 .topCheckboxContainerTitle {
@@ -98,9 +105,6 @@
 	align-content: flex-start;
 	/* border: 1px solid var(--primary-color);
 	border-radius: 4px; */
-	transition: width 0.3s ease;
-	flex-shrink: 0;
-	overflow: hidden;
 }
 
 .topTitle {
@@ -117,9 +121,67 @@
 .dataContentContainer {
 	width: 100%;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	flex-wrap: wrap;
 	align-content: flex-start;
-	row-gap: 8px;
+	row-gap: 12px;
 	box-sizing: border-box;
+}
+
+.inputContainer {
+	display: flex;
+	width: 50%;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-content: center;
+	column-gap: 16px;
+	row-gap: 8px;
+}
+
+.inputLabel {
+	width: 50%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	font-size: 16px;
+	font-weight: 300;
+	user-select: none;
+	font-family: "YouYuan", "Microsoft YaHei", "Arial", sans-serif;
+}
+
+.input {
+	width: 200px;
+	background-color: transparent;
+	border-radius: 0;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.buttonContainer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	cursor: pointer;
+	padding: 12px 24px;
+	transition: all 0.25s ease;
+	text-decoration: none;
+	border: 1px solid var(--primary-color);
+	background-color: var(--primary-color);
+	color: var(--bg-color);
+	border-radius: 8px;
+	font-size: 18px;
+	font-family: "YouYuan", "Microsoft YaHei", "Arial", sans-serif;
+}
+
+.button:hover {
+	opacity: 0.8;
 }

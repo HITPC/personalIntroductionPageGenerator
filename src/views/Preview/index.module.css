@@ -24,6 +24,11 @@
   z-index: 999;
 }
 
+.floatButton:disabled,.floatButton:disabled:hover {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
 .floatButton:hover {
   opacity: 0.8;
 }

@@ -6,6 +6,7 @@ import style from "./index.module.css";
 const Preview: React.FC = () => {
 	const iframeRef = useRef<HTMLIFrameElement | null>(null);
 	const iframeDocRef = useRef<Document | null>(null); // 用于保存 iframe 的 document
+	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const search = window.location.search;
 	const params = new URLSearchParams(search);
 	const template = params.get("template");
@@ -22,10 +23,21 @@ const Preview: React.FC = () => {
 		};
 
 		iframe.addEventListener("load", handleLoad);
+		const timer1 = setTimeout(() => {
+			messageApi.info("请稍等一小段时间，待页面完整加载后再进行下载");
+		}, 0);
+		const timer2 = setTimeout(() => {
+			if (buttonRef.current) {
+				messageApi.success("可以下载啦");
+				buttonRef.current.disabled = false;
+			}
+		}, 1500);
 
 		// 清理事件监听器
 		return () => {
 			iframe.removeEventListener("load", handleLoad);
+			clearTimeout(timer1);
+			clearTimeout(timer2);
 		};
 	}, []);
 
@@ -45,7 +57,9 @@ const Preview: React.FC = () => {
 
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = `PIPG-${template}-${new Date().toISOString().split("T")[0]}.html`;
+		a.download = `PIPG-${template}-${
+			new Date().toISOString().split("T")[0]
+		}.html`;
 		a.style.display = "none";
 		document.body.appendChild(a);
 		a.click();
@@ -73,7 +87,12 @@ const Preview: React.FC = () => {
 						zIndex: 99, // 确保 iframe 在最上层
 					}}
 				/>
-				<button className={style.floatButton} onClick={handleDownload}>
+				<button
+					className={style.floatButton}
+					onClick={handleDownload}
+					ref={buttonRef}
+					disabled
+				>
 					<DownloadOutlined />
 				</button>
 			</div>

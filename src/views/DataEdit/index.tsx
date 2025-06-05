@@ -8,6 +8,7 @@ import type { CheckboxChangeSituation } from "@/types/edit";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import type UserData from "@/types/userData";
 import type TemplatesType from "@/types/template";
+import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router";
 import style from "./index.module.css";
@@ -532,6 +533,7 @@ const Edit: React.FC = () => {
 							<DatePicker
 								className={style.input}
 								placeholder="请选择出生日期"
+								defaultValue={basicData.birth ? dayjs(basicData.birth) : null}
 								onChange={onBirthDateChange}
 							/>
 						</div>
@@ -644,6 +646,9 @@ const Edit: React.FC = () => {
 											className={style.input}
 											picker="month"
 											placeholder="开始日期"
+											defaultValue={
+												item.startDate ? dayjs(item.startDate, "YYYY-MM") : null
+											}
 											onChange={(_, dateStr) =>
 												onEduExpDateChange(dateStr, "startDate", index)
 											}
@@ -653,6 +658,9 @@ const Edit: React.FC = () => {
 										<p className={style.inputLabel}>结束日期</p>
 										<DatePicker
 											className={style.input}
+											defaultValue={
+												item.endDate ? dayjs(item.endDate, "YYYY-MM") : null
+											}
 											picker="month"
 											placeholder="结束日期"
 											onChange={(_, dateStr) =>
@@ -764,6 +772,9 @@ const Edit: React.FC = () => {
 											className={style.input}
 											picker="month"
 											placeholder="开始日期"
+											defaultValue={
+												item.startDate ? dayjs(item.startDate, "YYYY-MM") : null
+											}
 											onChange={(_, dateStr) =>
 												onInternshipDateChange(dateStr, "startDate", index)
 											}
@@ -775,6 +786,9 @@ const Edit: React.FC = () => {
 											className={style.input}
 											picker="month"
 											placeholder="结束日期"
+											defaultValue={
+												item.endDate ? dayjs(item.endDate, "YYYY-MM") : null
+											}
 											onChange={(_, dateStr) =>
 												onInternshipDateChange(dateStr, "endDate", index)
 											}
@@ -854,6 +868,9 @@ const Edit: React.FC = () => {
 											className={style.input}
 											picker="month"
 											placeholder="开始日期"
+											defaultValue={
+												item.startDate ? dayjs(item.startDate, "YYYY-MM") : null
+											}
 											onChange={(_, dateStr) =>
 												onProjectDateChange(dateStr, "startDate", index)
 											}
@@ -865,24 +882,27 @@ const Edit: React.FC = () => {
 											className={style.input}
 											picker="month"
 											placeholder="结束日期"
+											defaultValue={
+												item.endDate ? dayjs(item.endDate, "YYYY-MM") : null
+											}
 											onChange={(_, dateStr) =>
 												onProjectDateChange(dateStr, "endDate", index)
 											}
 										/>
 									</div>
 									<div className={style.inputContainer}>
-										<p className={style.inputLabel}>工作内容</p>
+										<p className={style.inputLabel}>项目描述</p>
 										<Input
 											allowClear
 											onChange={(e) =>
-												onInternshipExpInputChange(
+												onProjectExpInputChange(
 													"description",
 													e.target.value,
 													index
 												)
 											}
 											value={item.description}
-											placeholder="请输入工作内容"
+											placeholder="请输入项目描述"
 											className={style.input}
 										></Input>
 									</div>

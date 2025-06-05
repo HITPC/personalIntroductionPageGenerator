@@ -158,7 +158,7 @@
 }
 
 .input {
-	width: 240px;
+	width: 280px;
 	background-color: transparent;
 	border-radius: 0;
 	border-top: none;
@@ -194,7 +194,7 @@
 	align-items: center;
 	border: 1px solid var(--primary-color);
 	color: var(--primary-color);
-	border-radius: 16px;
+	border-radius: 32px;
 	transition: background-color 0.25s ease, color 0.25s ease;
 	cursor: pointer;
 }
@@ -228,8 +228,8 @@
 }
 
 .eduDivider {
-	width: 90%;
-	margin: 8px auto;
+	width: 100%;
+	margin-top: 16px;
 	border-bottom: 1px dashed var(--primary-border-light);
 }
 
@@ -247,7 +247,7 @@
 	align-items: center;
 	user-select: none;
 	cursor: pointer;
-	padding: 12px 24px;
+	padding: 8px 24px;
 	transition: all 0.25s ease;
 	text-decoration: none;
 	border: 1px solid var(--primary-color);
@@ -269,7 +269,7 @@
 	align-items: center;
 	user-select: none;
 	cursor: pointer;
-	padding: 12px 24px;
+	padding: 8px 24px;
 	transition: all 0.25s ease;
 	text-decoration: none;
 	border: 1px solid var(--primary-color);

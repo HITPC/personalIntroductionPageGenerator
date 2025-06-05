@@ -78,6 +78,8 @@
 }
 
 .topCheckboxContainer {
+	position: sticky;
+	top: 0px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -85,8 +87,10 @@
 	width: 80%;
 	height: 48px;
 	background-color: var(--bg-color);
+	background-image: url("/img/texture.png");
 	user-select: none;
 	border-radius: 8px;
+	z-index: 99;
 }
 
 .topCheckboxContainerTitle {

@@ -7,6 +7,7 @@ import type { UserDataKey } from "@/types/userData";
 import type { CheckboxChangeSituation } from "@/types/edit";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import type UserData from "@/types/userData";
+import type TemplatesType from "@/types/template";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router";
 import style from "./index.module.css";
@@ -54,74 +55,127 @@ const Edit: React.FC = () => {
 		},
 	];
 
-	const [checkedTopTitle, setCheckedTopTitle] = useState<string[]>(
-		topTitleConfigs.map((item) => item.value)
-	);
+	const UserDataLocal = localStorage.getItem("userData");
+	let UserDataLocalParsed = null;
+	if (UserDataLocal) {
+		UserDataLocalParsed = JSON.parse(UserDataLocal);
+	}
+
+	const [checkedTopTitle, setCheckedTopTitle] = useState<string[]>(() => {
+		if (UserDataLocalParsed) {
+			return topTitleConfigs
+				.filter(
+					(item) => UserDataLocalParsed[item.value as UserDataKey] !== undefined
+				)
+				.map((item) => item.value);
+		}
+		return topTitleConfigs.map((item) => item.value);
+	});
 
 	const [messageApi, contextHolder] = message.useMessage();
 
-	const [basicData, setBasicData] = useState<UserData["basicData"]>({
-		name: "",
-		birth: "",
-		phone: "",
-		email: "",
-		wx: "",
+	const [basicData, setBasicData] = useState<UserData["basicData"]>(() => {
+		if (UserDataLocalParsed) {
+			return UserDataLocalParsed.basicData;
+		}
+		return {
+			name: "",
+			birth: "",
+			phone: "",
+			email: "",
+			wx: "",
+		};
 	});
 	const [educationExperience, setEducationExperience] = useState<
 		UserData["educationExperience"]
-	>([
-		{
-			id: nanoid(),
-			school: "",
-			major: "",
-			degree: "学士",
-			schoolLevel: "985",
-			startDate: "",
-			endDate: "",
-		},
-	]);
+	>(() => {
+		if (UserDataLocalParsed) {
+			return UserDataLocalParsed.educationExperience;
+		}
+		return [
+			{
+				id: nanoid(),
+				school: "",
+				major: "",
+				degree: "学士",
+				schoolLevel: "985",
+				startDate: "",
+				endDate: "",
+			},
+		];
+	});
 	const [skillsAndCertifications, setSkillsAndCertifications] = useState<
 		UserData["skillsAndCertifications"]
-	>({
-		skills: "",
-		certifications: "",
+	>(() => {
+		if (UserDataLocalParsed) {
+			return UserDataLocalParsed.skillsAndCertifications;
+		}
+		return {
+			skills: "",
+			certifications: "",
+		};
 	});
-	const [awards, setAwards] = useState<UserData["awards"]>("");
+	const [awards, setAwards] = useState<UserData["awards"]>(() => {
+		if (UserDataLocalParsed && UserDataLocalParsed.awards) {
+			return UserDataLocalParsed.awards;
+		}
+		return "";
+	});
 	const [internshipExperience, setInternshipExperience] = useState<
 		UserData["internshipExperience"]
-	>([]);
+	>(() => {
+		if (UserDataLocalParsed && UserDataLocalParsed.internshipExperience) {
+			return UserDataLocalParsed.internshipExperience;
+		}
+		return [
+			{
+				id: nanoid(),
+				company: "",
+				position: "",
+				startDate: "",
+				endDate: "",
+				description: "",
+			},
+		];
+	});
 	const [projectExperience, setProjectExperience] = useState<
 		UserData["projectExperience"]
-	>([]);
-	const [worksShow, setWorksShow] = useState<UserData["worksShow"]>({
-		title: "",
-		description: "",
-	});
-	const [descriptionAboutMe, setDescriptionAboutMe] =
-		useState<UserData["descriptionAboutMe"]>("");
-	const [finalMotto, setFinalMotto] = useState<UserData["finalMotto"]>("");
-	const [template, setTemplate] = useState<string>("");
-
-	useEffect(() => {
-		const data = localStorage.getItem("userData");
-		if (data) {
-			const parsedData: UserData = JSON.parse(data);
-			setBasicData(parsedData.basicData);
-			setEducationExperience(parsedData.educationExperience);
-			setSkillsAndCertifications(parsedData.skillsAndCertifications);
-			setAwards(parsedData.awards || "");
-			setInternshipExperience(parsedData.internshipExperience || []);
-			setProjectExperience(parsedData.projectExperience || []);
-			setWorksShow(parsedData.worksShow || { title: "", description: "" });
-			setDescriptionAboutMe(parsedData.descriptionAboutMe || "");
-			setFinalMotto(parsedData.finalMotto || "");
-			setCheckedTopTitle(
-				topTitleConfigs
-					.filter((item) => parsedData[item.value as UserDataKey])
-					.map((item) => item.value)
-			);
+	>(() => {
+		if (UserDataLocalParsed && UserDataLocalParsed.projectExperience) {
+			return UserDataLocalParsed.projectExperience;
 		}
-	}, []);
+		return [
+			{
+				id: nanoid(),
+				name: "",
+				position: "",
+				description: "",
+				startDate: "",
+				endDate: "",
+			},
+		];
+	});
+	const [worksShow, setWorksShow] = useState<UserData["worksShow"]>(() => {
+		if (UserDataLocalParsed && UserDataLocalParsed.worksShow) {
+			return UserDataLocalParsed.worksShow;
+		}
+		return { title: "", description: "" };
+	});
+	const [descriptionAboutMe, setDescriptionAboutMe] = useState<
+		UserData["descriptionAboutMe"]
+	>(() => {
+		if (UserDataLocalParsed && UserDataLocalParsed.descriptionAboutMe) {
+			return UserDataLocalParsed.descriptionAboutMe;
+		}
+		return "";
+	});
+	const [finalMotto, setFinalMotto] = useState<UserData["finalMotto"]>(() => {
+		if (UserDataLocalParsed && UserDataLocalParsed.finalMotto) {
+			return UserDataLocalParsed.finalMotto;
+		}
+		return "";
+	});
+	const [template, setTemplate] = useState<TemplatesType>("DarkLight");
 
 	// 为使用GSAP动画的准备
 	const dataContainerRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -156,17 +210,61 @@ const Edit: React.FC = () => {
 				dataContainerRefs.current[changeSituation.target];
 			if (newDataContainer) {
 				newDataContainer.style.display = "flex"; // 确保元素可见
-				gsap.to(newDataContainer, {
-					opacity: 1,
-					scale: 1,
-					ease: "power2.out",
-					duration: 0.6,
-				});
+				gsap.fromTo(
+					// 使用fromTo保证进入时也有动画
+					newDataContainer,
+					{
+						opacity: 0,
+						scale: 0,
+					},
+					{
+						opacity: 1,
+						scale: 1,
+						ease: "power2.out",
+						duration: 0.6,
+					}
+				);
 			}
 		} else if (changeSituation.addOrDel === "del") {
 			switch (changeSituation.target) {
-				case "awards": 
+				case "awards":
 					setAwards("");
+					break;
+				case "internshipExperience":
+					setInternshipExperience([
+						{
+							id: nanoid(),
+							company: "",
+							position: "",
+							startDate: "",
+							endDate: "",
+							description: "",
+						},
+					]);
+					break;
+				case "projectExperience":
+					setProjectExperience([
+						{
+							id: nanoid(),
+							name: "",
+							position: "",
+							startDate: "",
+							endDate: "",
+							description: "",
+						},
+					]);
+					break;
+				case "worksShow":
+					setWorksShow({
+						title: "",
+						description: "",
+					});
+					break;
+				case "descriptionAboutMe":
+					setDescriptionAboutMe("");
+					break;
+				case "finalMotto":
+					setFinalMotto("");
 					break;
 			}
 			const delDataContainer =
@@ -184,6 +282,17 @@ const Edit: React.FC = () => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		topTitleConfigs.forEach((item) => {
+			if (!checkedTopTitle.includes(item.value)) {
+				const current = dataContainerRefs.current[item.value];
+				if (current) {
+					current.style.display = "none"; // 确保未选中的元素初始状态为隐藏
+				}
+			}
+		});
+	}, []);
 
 	const onBirthDateChange = (_: any, dateString: string | string[]) => {
 		if (!Array.isArray(dateString)) {
@@ -268,6 +377,141 @@ const Edit: React.FC = () => {
 		});
 	};
 
+	const deleteInternshipExperience = (index: number) => {
+		setInternshipExperience((prev) => {
+			if (prev) {
+				const newExperience = [...prev];
+				newExperience.splice(index, 1);
+				return newExperience;
+			}
+		});
+	};
+
+	const addInternshipExperience = () => {
+		setInternshipExperience((prev) => {
+			if (prev) {
+				return [
+					...prev,
+					{
+						id: nanoid(),
+						company: "",
+						position: "",
+						startDate: "",
+						endDate: "",
+						description: "",
+					},
+				];
+			}
+		});
+	};
+
+	const onInternshipExpInputChange = (
+		key: string,
+		value: string,
+		index: number
+	) => {
+		setInternshipExperience((prev) => {
+			if (prev) {
+				const newExperience = [...prev];
+				newExperience[index] = {
+					...newExperience[index],
+					[key]: value,
+				};
+				return newExperience;
+			}
+		});
+	};
+
+	const onInternshipDateChange = (
+		dateString: string | string[],
+		startOrEnd: "startDate" | "endDate",
+		index: number
+	) => {
+		setInternshipExperience((prev) => {
+			if (prev) {
+				const newExperience = [...prev];
+				newExperience[index] = {
+					...newExperience[index],
+					[startOrEnd]: dateString,
+				};
+				return newExperience;
+			}
+		});
+	};
+
+	const deleteProjectExperience = (index: number) => {
+		setProjectExperience((prev) => {
+			if (prev) {
+				const newExperience = [...prev];
+				newExperience.splice(index, 1);
+				return newExperience;
+			}
+		});
+	};
+
+	const addProjectExperience = () => {
+		setProjectExperience((prev) => {
+			if (prev) {
+				return [
+					...prev,
+					{
+						id: nanoid(),
+						name: "",
+						position: "",
+						startDate: "",
+						endDate: "",
+						description: "",
+					},
+				];
+			}
+		});
+	};
+
+	const onProjectExpInputChange = (
+		key: string,
+		value: string,
+		index: number
+	) => {
+		setProjectExperience((prev) => {
+			if (prev) {
+				const newExperience = [...prev];
+				newExperience[index] = {
+					...newExperience[index],
+					[key]: value,
+				};
+				return newExperience;
+			}
+		});
+	};
+
+	const onProjectDateChange = (
+		dateString: string | string[],
+		startOrEnd: "startDate" | "endDate",
+		index: number
+	) => {
+		setProjectExperience((prev) => {
+			if (prev) {
+				const newExperience = [...prev];
+				newExperience[index] = {
+					...newExperience[index],
+					[startOrEnd]: dateString,
+				};
+				return newExperience;
+			}
+		});
+	};
+
+	const onWorksInputChange = (key: string, value: string) => {
+		setWorksShow((prev) => {
+			if (prev) {
+				return {
+					...prev,
+					[key]: value,
+				};
+			}
+		});
+	};
+
 	const getTopTitleContent = (title: UserDataKey) => {
 		switch (title) {
 			case "basicData":
@@ -287,7 +531,6 @@ const Edit: React.FC = () => {
 							<p className={style.inputLabel}>出生日期</p>
 							<DatePicker
 								className={style.input}
-								value={basicData.birth ? new Date(basicData.birth) : null}
 								placeholder="请选择出生日期"
 								onChange={onBirthDateChange}
 							/>
@@ -399,7 +642,7 @@ const Edit: React.FC = () => {
 										<p className={style.inputLabel}>开始日期</p>
 										<DatePicker
 											className={style.input}
-											value={item.startDate ? new Date(item.startDate) : null}
+											picker="month"
 											placeholder="开始日期"
 											onChange={(_, dateStr) =>
 												onEduExpDateChange(dateStr, "startDate", index)
@@ -410,7 +653,7 @@ const Edit: React.FC = () => {
 										<p className={style.inputLabel}>结束日期</p>
 										<DatePicker
 											className={style.input}
-											value={item.endDate ? new Date(item.endDate) : null}
+											picker="month"
 											placeholder="结束日期"
 											onChange={(_, dateStr) =>
 												onEduExpDateChange(dateStr, "endDate", index)
@@ -462,27 +705,251 @@ const Edit: React.FC = () => {
 					</>
 				);
 			case "awards":
-				return <div className={style.inputContainer}>
-							<p className={style.inputLabel}>获奖情况</p>
-							<Input
-								onChange={(e) =>
-									setAwards(e.target.value)
-								}
-								value={skillsAndCertifications.certifications}
-								placeholder="请输入获奖情况"
-								className={style.input}
-							/>
-						</div>;
+				return (
+					<div className={style.inputContainer}>
+						<p className={style.inputLabel}>获奖情况</p>
+						<Input
+							onChange={(e) => setAwards(e.target.value)}
+							value={awards}
+							placeholder="请输入获奖情况"
+							className={style.input}
+						/>
+					</div>
+				);
 			case "internshipExperience":
-				return <div>{title}</div>;
+				return (
+					<div className={style.eduContainer}>
+						{internshipExperience?.map((item, index) => (
+							<div className={style.eduMainContainer} key={item.id}>
+								<div className={style.eduItemContainer}>
+									<DeleteOutlined
+										className={style.eduDeleteButton}
+										onClick={() => deleteInternshipExperience(index)}
+									/>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>单位名称</p>
+										<Input
+											allowClear
+											onChange={(e) =>
+												onInternshipExpInputChange(
+													"company",
+													e.target.value,
+													index
+												)
+											}
+											value={item.company}
+											placeholder="请输入单位名称"
+											className={style.input}
+										></Input>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>职位</p>
+										<Input
+											allowClear
+											onChange={(e) =>
+												onInternshipExpInputChange(
+													"position",
+													e.target.value,
+													index
+												)
+											}
+											value={item.position}
+											placeholder="请输入职位名称"
+											className={style.input}
+										></Input>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>开始日期</p>
+										<DatePicker
+											className={style.input}
+											picker="month"
+											placeholder="开始日期"
+											onChange={(_, dateStr) =>
+												onInternshipDateChange(dateStr, "startDate", index)
+											}
+										/>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>结束日期</p>
+										<DatePicker
+											className={style.input}
+											picker="month"
+											placeholder="结束日期"
+											onChange={(_, dateStr) =>
+												onInternshipDateChange(dateStr, "endDate", index)
+											}
+										/>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>工作内容</p>
+										<Input
+											allowClear
+											onChange={(e) =>
+												onInternshipExpInputChange(
+													"description",
+													e.target.value,
+													index
+												)
+											}
+											value={item.description}
+											placeholder="请输入工作内容"
+											className={style.input}
+										></Input>
+									</div>
+								</div>
+								{index !== internshipExperience.length - 1 && (
+									<div className={style.eduDivider}></div>
+								)}
+							</div>
+						))}
+						<div
+							className={style.eduAddButton}
+							onClick={addInternshipExperience}
+						>
+							<PlusOutlined />
+						</div>
+					</div>
+				);
 			case "projectExperience":
-				return <div>{title}</div>;
+				return (
+					<div className={style.eduContainer}>
+						{projectExperience?.map((item, index) => (
+							<div className={style.eduMainContainer} key={item.id}>
+								<div className={style.eduItemContainer}>
+									<DeleteOutlined
+										className={style.eduDeleteButton}
+										onClick={() => deleteProjectExperience(index)}
+									/>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>项目名称</p>
+										<Input
+											allowClear
+											onChange={(e) =>
+												onProjectExpInputChange("name", e.target.value, index)
+											}
+											value={item.name}
+											placeholder="请输入项目名称"
+											className={style.input}
+										></Input>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>职位</p>
+										<Input
+											allowClear
+											onChange={(e) =>
+												onProjectExpInputChange(
+													"position",
+													e.target.value,
+													index
+												)
+											}
+											value={item.position}
+											placeholder="请输入职位名称"
+											className={style.input}
+										></Input>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>开始日期</p>
+										<DatePicker
+											className={style.input}
+											picker="month"
+											placeholder="开始日期"
+											onChange={(_, dateStr) =>
+												onProjectDateChange(dateStr, "startDate", index)
+											}
+										/>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>结束日期</p>
+										<DatePicker
+											className={style.input}
+											picker="month"
+											placeholder="结束日期"
+											onChange={(_, dateStr) =>
+												onProjectDateChange(dateStr, "endDate", index)
+											}
+										/>
+									</div>
+									<div className={style.inputContainer}>
+										<p className={style.inputLabel}>工作内容</p>
+										<Input
+											allowClear
+											onChange={(e) =>
+												onInternshipExpInputChange(
+													"description",
+													e.target.value,
+													index
+												)
+											}
+											value={item.description}
+											placeholder="请输入工作内容"
+											className={style.input}
+										></Input>
+									</div>
+								</div>
+								{index !== projectExperience.length - 1 && (
+									<div className={style.eduDivider}></div>
+								)}
+							</div>
+						))}
+						<div className={style.eduAddButton} onClick={addProjectExperience}>
+							<PlusOutlined />
+						</div>
+					</div>
+				);
 			case "worksShow":
-				return <div>{title}</div>;
+				return (
+					<>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>作品名</p>
+							<Input
+								allowClear
+								onChange={(e) => onWorksInputChange("title", e.target.value)}
+								value={worksShow?.title}
+								placeholder="请输入作品名称"
+								className={style.input}
+							></Input>
+						</div>
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>描述</p>
+							<Input
+								allowClear
+								onChange={(e) =>
+									onWorksInputChange("description", e.target.value)
+								}
+								value={worksShow?.description}
+								placeholder="请输入作品描述，最好是贴链接"
+								className={style.input}
+							></Input>
+						</div>
+					</>
+				);
 			case "descriptionAboutMe":
-				return <div>{title}</div>;
+				return (
+					<div className={style.inputContainer}>
+						<p className={style.inputLabel}>自我评价</p>
+						<Input
+							allowClear
+							onChange={(e) => setDescriptionAboutMe(e.target.value)}
+							value={descriptionAboutMe}
+							placeholder="请输入自我评价"
+							className={style.input}
+						></Input>
+					</div>
+				);
 			case "finalMotto":
-				return <div>{title}</div>;
+				return (
+					<div className={style.inputContainer}>
+						<p className={style.inputLabel}>格言</p>
+						<Input
+							allowClear
+							onChange={(e) => setFinalMotto(e.target.value)}
+							value={finalMotto}
+							placeholder="请输入格言"
+							className={style.input}
+						></Input>
+					</div>
+				);
 		}
 	};
 
@@ -491,13 +958,25 @@ const Edit: React.FC = () => {
 			basicData,
 			educationExperience,
 			skillsAndCertifications,
-			awards,
-			internshipExperience,
-			projectExperience,
-			worksShow,
-			descriptionAboutMe,
-			finalMotto,
 		};
+		if (checkedTopTitle.includes("awards")) {
+			userData.awards = awards;
+		}
+		if (checkedTopTitle.includes("internshipExperience")) {
+			userData.internshipExperience = internshipExperience;
+		}
+		if (checkedTopTitle.includes("projectExperience")) {
+			userData.projectExperience = projectExperience;
+		}
+		if (checkedTopTitle.includes("worksShow")) {
+			userData.worksShow = worksShow;
+		}
+		if (checkedTopTitle.includes("descriptionAboutMe")) {
+			userData.descriptionAboutMe = descriptionAboutMe;
+		}
+		if (checkedTopTitle.includes("finalMotto")) {
+			userData.finalMotto = finalMotto;
+		}
 		localStorage.setItem("userData", JSON.stringify(userData));
 		messageApi.success("本地保存成功!");
 	};
@@ -561,7 +1040,19 @@ const Edit: React.FC = () => {
 				<div className={style.dataContainer}>
 					<div className={style.topTitle}>模板选择</div>
 					<div className={style.dataContentContainer}>
-						123 需要一个state来记录当前选择的模板
+						<div className={style.inputContainer}>
+							<p className={style.inputLabel}>模板</p>
+							<Select
+								defaultValue="DarkLight"
+								onChange={(value) => setTemplate(value as TemplatesType)}
+								className={style.input}
+								options={[
+									{ value: "DarkLight", label: "黑白光影" },
+									{ value: "RedWhite", label: "红白古典" },
+									{ value: "BlueWhite", label: "蓝白活力" },
+								]}
+							/>
+						</div>
 					</div>
 				</div>
 				<div className={style.buttonContainer}>

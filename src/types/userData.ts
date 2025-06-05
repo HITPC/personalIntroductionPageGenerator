@@ -25,6 +25,7 @@ export default interface UserData {
   awards?: string;
 
   internshipExperience?: {
+    id: string;
     company: string;
     position: string;
     startDate: string;
@@ -33,6 +34,7 @@ export default interface UserData {
   }[];
 
   projectExperience?: {
+    id: string;
     name: string;
     position: string;
     description: string;

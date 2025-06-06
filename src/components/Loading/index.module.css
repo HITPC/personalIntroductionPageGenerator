@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg-color);
+  background-color: transparent;
   color: var(--primary-color);
 }
 
@@ -15,6 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0;
 }
 
 .circle {
@@ -30,6 +31,7 @@
   align-items: center;
   column-gap: 12px;
   bottom: 240px;
+  opacity: 0;
 }
 
 .text {

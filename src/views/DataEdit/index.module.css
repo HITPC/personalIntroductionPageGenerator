@@ -1,3 +1,14 @@
+@keyframes show-up {
+	0%{
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
+
 .container {
 	width: 100%;
 	padding: 12px;
@@ -6,6 +17,8 @@
 	justify-content: center;
 	flex-wrap: wrap;
 	align-content: flex-start;
+	opacity: 0;
+	animation: show-up 0.3s ease-in 1 forwards;
 }
 
 .header {

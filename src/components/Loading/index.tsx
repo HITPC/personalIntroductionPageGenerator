@@ -11,7 +11,17 @@ const Loading: React.FC = () => {
 	useGSAP(() => {
 		if (textContainerRef.current) {
 			const texts = textContainerRef.current.querySelectorAll("p");
-			const texttl = gsap.timeline({ repeat: -1, repeatDelay: 0.2 });
+			gsap.fromTo(textContainerRef.current, {
+				opacity: 0,
+				y: 10,
+			}, {
+				opacity: 1,
+				y: 0,
+				duration: 0.6,
+				delay: 0.6,
+				ease: "power1.inOut"
+			})
+			const texttl = gsap.timeline({ repeat: -1, repeatDelay: 0.2, delay: 0.6 });
 			const interval = 0.2; // 各字母跳跃时间间隔
 			const duration = 0.2; // 单个动画持续时间
 			texts.forEach((text, index) => {
@@ -39,6 +49,15 @@ const Loading: React.FC = () => {
 		}
 
 		if (circleRef.current) {
+			gsap.fromTo(circleRef.current, {
+				opacity: 0,
+				y: 10,
+			}, {
+				opacity: 1,
+				y: 0,
+				duration: 0.6,
+				ease: "power1.inOut"
+			})
 			const circleTl = gsap.timeline({ repeat: -1 });
 			circleTl.to(
 				circleRef.current,

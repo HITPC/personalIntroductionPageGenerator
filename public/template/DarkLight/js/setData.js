@@ -1,5 +1,6 @@
 // 数据设置相关逻辑，在下载下来的内容中不会存在
 window.onload = () => {
+	console.log('@data-setter: 开始设置数据');
 	const dataStr = localStorage.getItem("userData");
 	if (!dataStr) {
 		alert(
